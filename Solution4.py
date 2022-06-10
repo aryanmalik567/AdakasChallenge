@@ -1,21 +1,8 @@
 import re
 
-"""
-Thought about doing a Depth-First-Search with Heuristics with a node class.
-
-Realised that if I had the same tree for multiple searches that might been better,
-but since we have to construct the tree anyway, better to use the given format and work out
-solution from there.
-
-
-"""
-
-# Example input
-# 22  (5 (4 (11 (7 () ()) (2 () ()) ) ()) (8 (13 () ()) (4 () (1 () ()) ) ) )
-
-leaf = re.compile("\(\)")
-parent = re.compile("\(\d+")
-close = re.compile("\)")
+leaf = re.compile("\(\)") # Each leaf of the tree is of the form ()
+parent = re.compile("\(\d+") # Each parent to a node has the form (n
+close = re.compile("\)") # End of branch
 
 
 def find(treeString: str, goal: int):
@@ -26,8 +13,8 @@ def find(treeString: str, goal: int):
     i = 0 # Current index in treestring
     while i < len(treeString)-1:
         string = treeString[i:]
-        p = re.match(parent, string) # Match for parent?
-        l = re.match(leaf, string) # Match for leaf?
+        p = re.match(parent, string) # Is there a parent node in this section of the tree
+        l = re.match(leaf, string) # Is there a leaf node in this section of the tree
         cl = re.match(close, string) # Match for close bracket?
         if p != None: # For parent nodes
             length = p.span()[1] # length is index of last character of match
@@ -81,13 +68,13 @@ def parse(filename: str): # Returns a list of (int, str) pairs
 
 def main(filename: str):
     for goal, treeString in parse(filename):
-        print(goal, treeString)
+        # print(goal, treeString)
         if find(treeString, goal):
-            print("YES")
+            print("Yes")
         else:
-            print("NO")
+            print("No")
 
 
 if __name__ == "__main__":
     main("TestCases.txt")
-    #print(re.match(parent, "(5(2()()))").span())
+    

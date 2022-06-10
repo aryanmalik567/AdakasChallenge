@@ -14,9 +14,9 @@ def accumulatePath(treeString: str):
     pathSum = 0
     results = set()
 
-    c = 0
-    while c < len(treeString)-1:
-        string = treeString[c:]
+    i = 0
+    while i < len(treeString)-1:
+        string = treeString[i:]
         p = re.match(parent, string)
         l = re.match(leaf, string)
         cl = re.match(close, string)
@@ -24,15 +24,15 @@ def accumulatePath(treeString: str):
             _, end = p.span()
             path.append(int(string[1:end]))
             pathSum += path[-1]
-            c += end
+            i += end
         elif l != None: # For leaf nodes
             _, end = l.span()
             results.add(pathSum)
-            c += end
+            i += end
         elif cl != None:
             _, end = cl.span()
             pathSum -= path.pop()
-            c += end
+            i += end
     
     return results
 
